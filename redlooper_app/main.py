@@ -6,7 +6,7 @@ from threading import Event
 import logging
 import sys
 
-from redlooper_app.gui.looper_widget import LooperWidget
+from redlooper_app.gui.looper_widget import LooperWidget, State
 
 SCREEN_RES = (480, 320)
 CENTER = (int(SCREEN_RES[0] / 2), int(SCREEN_RES[1] / 2))
@@ -61,7 +61,13 @@ def main():
                 looper.reset()
 
             def state_changed_callback(state):
-                pass
+                if state in [Looper.State.RECORDING, Looper.State.OVERDUBBING, Looper.State.MULTIPLYING,
+                             Looper.State.INSERTING, Looper.State.REPLACING, Looper.State.ONESHOT, Looper.State.SUBSTITUTE]:
+                    lpw.set_state(State.RECORDING)
+                elif state in [Looper.State.PLAYING, Looper.State.MUTED]:
+                    lpw.set_state(State.PLAYING)
+                else:
+                    lpw.set_state(State.PAUSED)
                 # if state == Looper.State.RECORDING:
                 #     lpw.set_mode(lpw.Mode.PULSING)
                 # else:
