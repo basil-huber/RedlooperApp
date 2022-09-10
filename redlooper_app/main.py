@@ -20,6 +20,7 @@ def main():
 
     try:
         pygame.init()
+        pygame.mouse.set_visible(False)
         screen = pygame.display.set_mode(SCREEN_RES, 0, 32)
         lpw = LooperWidget(screen, color=(255, 0, 0), center=CENTER, radius=100, linewidth=20)
 
