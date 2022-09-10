@@ -128,6 +128,7 @@ class Looper:
         self.loop_length_update_callback = callback
 
     def send_sldown(self, command):
+        logging.debug(f'Sooperlooper send /sl/-1/down {command}')
         liblo.send(self.target, "/sl/-1/down", command)
 
     def record(self):
