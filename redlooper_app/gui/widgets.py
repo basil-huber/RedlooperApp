@@ -15,6 +15,7 @@ class ArcSegmentLoadingBar:
         self.loading_fraction = 0
 
         self._bounding_box = (0, 0, 0, 0)
+        self.center = (0, 0)
         self._angle_start = 0
         self._angle_end = 0
         self._filling = True
@@ -43,6 +44,7 @@ class ArcSegmentLoadingBar:
                         self.linewidth)
 
     def set_center(self, x, y):
+        self.center = (x, y)
         self._bounding_box = (x - self.radius, y - self.radius, 2 * self.radius, 2 * self.radius)
 
 
@@ -79,8 +81,9 @@ class TimerWidget(ArcSegmentLoadingBar):
     def draw(self):
         time_str = self.time_to_string(self.time_elapsed_s)
         text = self.font.render(time_str, True, (255, 255, 255))
-
-        self.surface.blit(text, (100, 100))
+        _, _, text_width, text_height = text.get_rect()
+        text_pos = (int(self.center[0] - text_width/2), int(self.center[1] - text_height/2))
+        self.surface.blit(text, text_pos)
         super().draw()
 
     @staticmethod
