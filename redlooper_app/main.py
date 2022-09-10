@@ -1,3 +1,5 @@
+from logging.handlers import SysLogHandler
+
 import pygame
 
 from redlooper_app.looper_osc import Looper
@@ -12,10 +14,10 @@ SCREEN_RES = (480, 320)
 CENTER = (int(SCREEN_RES[0] / 2), int(SCREEN_RES[1] / 2))
 FPS = 10
 
-
 def main():
-    logging.basicConfig(filename='redlooper_app.log', level=logging.DEBUG, format='%(asctime)s %(message)s')
-    logging.getLogger().addHandler(logging.StreamHandler(sys.stdout))
+    logging.basicConfig(handlers=[SysLogHandler(address='/dev/log'), logging.StreamHandler(sys.stdout)],
+                        level=logging.DEBUG, format='%(levelname)s RedlooperApp:%(module)s %(message)s')
+
     logging.info('------------- Starting ---------------')
 
     try:
