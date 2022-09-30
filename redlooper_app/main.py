@@ -71,18 +71,27 @@ def main():
                     lpw.set_state(State.PLAYING)
                 else:
                     lpw.set_state(State.PAUSED)
+                logging.debug(f'State Changed: {state}')
                 # if state == Looper.State.RECORDING:
                 #     lpw.set_mode(lpw.Mode.PULSING)
                 # else:
                 #     lpw.set_mode(lpw.Mode.FILLING)
+
+            def loop_length_received(loop_length):
+                lpw.set_loop_length(loop_length)
+                logging.debug(f'Loop Length received: {loop_length}')
+
+            def loop_position_received(loop_position):
+                lpw.set_loop_position(loop_position)
+                logging.debug(f'Loop Position received: {loop_position}')
 
             pedal.button_left.set_callback_released(button_left_released)
             pedal.button_left.set_callback_released_long(button_left_released_long)
             pedal.button_right.set_callback_released(button_right_released)
             pedal.button_right.set_callback_released_long(button_right_released_long)
 
-            looper.set_loop_position_update_callback(lpw.set_loop_position)
-            looper.set_loop_length_update_callback(lpw.set_loop_length)
+            looper.set_loop_position_update_callback(loop_position_received)
+            looper.set_loop_length_update_callback(loop_length_received)
             looper.set_state_callback(state_changed_callback)
 
             ###########################
